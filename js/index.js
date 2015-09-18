@@ -4,8 +4,10 @@ var url = "https://spreadsheets.google.com/feeds/list/1eIxoc4h6B2nTdDAitHkviJH5r
 var data = []; 
 var gc;
 var markers = new Array();
-var normalPin = "http://dailybruin.com/images/2015/05/pin.png";
-var highlightedPin = "http://dailybruin.com/images/2015/05/highlighted-pin.png";
+var normalPinURL = "http://dailybruin.com/images/2015/05/pin.png";
+var highlightedPinURL = "http://dailybruin.com/images/2015/05/highlighted-pin.png";
+var currentIndex = 9; 
+var highlightedPin = null;
 
 // google.maps.event.addDomListener(window, 'load', initialize);
 
@@ -27,10 +29,10 @@ function initialize() {
         center: center,
         zoom: 9
       });
+
+      populateMap(); 
     }
   })
-
-  populateMap(); 
 
   // var test = new google.maps.LatLng(34.0113485, -117.8864209000000);
   // var marker = new google.maps.Marker({
@@ -60,14 +62,16 @@ var populateMap = function() {
           draggable: false,
           // title: "0",
           animation: google.maps.Animation.DROP,
-          icon: normalPin
+          icon: normalPinURL
+        });
+
+        var markerIndex = markers.length-1;
+        google.maps.event.addListener(markers[markerIndex], 'click', function() {
+          clickMarker(markerIndex);
         });
       });
 
-      var markerIndex = markers.length-1;
-      google.maps.event.addListener(markers[markerIndex], 'click', function() {
-        clickMarker(markerIndex);
-      });
+      
 
       
     });
@@ -79,6 +83,20 @@ var populateMap = function() {
 
 function clickMarker(i) {
   // refresh the box
+  panToIndex(i);
+
+}
+
+function panToIndex(i) {
+  m = markers[i];
+  if(!m)
+    return;
+  currentIndex = i;
+  if(highlightedPin)
+    highlightedPin.setIcon(normalPinURL);
+  m.setIcon(highlightedPinURL);
+  highlightedPin = m;
+  map.panTo(m.position);
 }
 
 function format(data){
