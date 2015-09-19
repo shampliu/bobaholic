@@ -48,12 +48,31 @@ var populateMap = function() {
   $.getJSON(url, function(json){
     data = format(json); 
 
+    var bubbles = []; 
+
     $.each(data, function (index, value){
       var loc; 
+
+      // var bubble = '<a><span class="content-bubble" id="' + index + '">' + index + '</span></a>';
+      // // bubbles.push(bubble);
+      // $(bubble).click(function() {
+      //   console.log('clicked!')
+      // })
+
+      var bubble = document.createElement("BUTTON");        
+      var t = document.createTextNode(index + 1);      
+      bubble.className = "content-bubble";
+      bubble.id = index; 
+      bubble.appendChild(t);
+      $(bubble).click(function() {
+        clickMarker(bubble.id);
+      })
+
+      $('#content-nav').append(bubble);
+
       gc.geocode( { 'address' : data[index].address }, function(results, status) {
         if (status == google.maps.GeocoderStatus.OK) {
           loc = new google.maps.LatLng(results[0].geometry.location.lat(), results[0].geometry.location.lng());
-          console.log(loc);
         }
 
         markers[markers.length] = new google.maps.Marker({
@@ -70,11 +89,11 @@ var populateMap = function() {
           clickMarker(markerIndex);
         });
       });
-
-      
-
-      
     });
+
+    // $('#content-nav > li').sortElements(function(a, b){
+    //     return $(a).find('.name').text() > $(b).find('.name').text() ? 1 : -1;
+    // });
   }); 
 
 
@@ -84,7 +103,8 @@ var populateMap = function() {
 function clickMarker(i) {
   // refresh the box
   panToIndex(i);
-
+  $('#flex-place').html(data[i].cafe);
+  $('#flex-address').html(data[i].address);
 }
 
 function panToIndex(i) {
