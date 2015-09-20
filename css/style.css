@@ -2,6 +2,33 @@
   box-sizing: border-box;
 }
 
+#previous {
+  color: whitesmoke;
+  background-color: #83C4C1;
+  border: 0px;
+  padding: 5px 8px;
+  transition: background 0.25s ease-in-out;
+}
+
+#previous:hover {
+  background: #64918F;
+  cursor: pointer;
+}
+
+#next:hover {
+  background: #64918F;
+  cursor: pointer;
+}
+
+#next {
+  color: whitesmoke;
+  background-color: #83C4C1;
+  border: 0px;
+  padding: 5px 8px;
+  transition: background 0.25s ease-in-out;
+  
+}
+
 #content-container {
   position: relative;
   margin: 0 auto;
@@ -100,6 +127,7 @@
 
 .content-bubble:last-child {
   margin-right: 0px;
+  padding: 6px 6px;
 }
 
 .content-bubble:hover {

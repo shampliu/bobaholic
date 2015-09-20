@@ -9,9 +9,6 @@ var highlightedPinURL = "http://dailybruin.com/images/2015/05/highlighted-pin.pn
 var currentIndex = 9; 
 var highlightedPin = null;
 
-// google.maps.event.addDomListener(window, 'load', initialize);
-
-
 function initialize() {
   gc = new google.maps.Geocoder;
   gc.geocode( { 'address' : 'University of California, Los Angeles, CA' }, function(results, status) {
@@ -31,17 +28,12 @@ function initialize() {
       });
 
       populateMap(); 
-      clickMarker(currentIndex);
     }
   })
 
-  // var test = new google.maps.LatLng(34.0113485, -117.8864209000000);
-  // var marker = new google.maps.Marker({
-  //   position: test,
-  //   title: "0"
-  // });
-
-  // marker.setMap(map);
+  setTimeout(function() {
+    clickMarker(currentIndex);
+  }, 3000)
 
 }
 
@@ -111,11 +103,12 @@ var populateMap = function() {
         });
       });
     });
-
+    
     // $('#content-nav > li').sortElements(function(a, b){
     //     return $(a).find('.name').text() > $(b).find('.name').text() ? 1 : -1;
     // });
   }); 
+
 
 
 
