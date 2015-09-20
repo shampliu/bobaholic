@@ -27,10 +27,11 @@ function initialize() {
         scrollwheel: false,
         mapTypeId: google.maps.MapTypeId.ROADMAP,
         center: center,
-        zoom: 9
+        zoom: 10
       });
 
       populateMap(); 
+      clickMarker(currentIndex);
     }
   })
 
@@ -44,6 +45,32 @@ function initialize() {
 
 }
 
+var previous = function() {
+  if (currentIndex == 0) {
+    return;
+  }
+
+  currentIndex--;
+  clickMarker(currentIndex);
+  
+  if (currentIndex == 0) {
+    return;
+  }
+}
+
+var next = function() {
+  if (currentIndex == 9) {
+    return;
+  }
+
+  currentIndex++;
+  clickMarker(currentIndex);
+
+  if (currentIndex == 9) {
+    return;
+  }
+}
+
 var populateMap = function() {
   $.getJSON(url, function(json){
     data = format(json); 
@@ -52,12 +79,6 @@ var populateMap = function() {
 
     $.each(data, function (index, value){
       var loc; 
-
-      // var bubble = '<a><span class="content-bubble" id="' + index + '">' + index + '</span></a>';
-      // // bubbles.push(bubble);
-      // $(bubble).click(function() {
-      //   console.log('clicked!')
-      // })
 
       var bubble = document.createElement("BUTTON");        
       var t = document.createTextNode(index + 1);      
@@ -103,8 +124,11 @@ var populateMap = function() {
 function clickMarker(i) {
   // refresh the box
   panToIndex(i);
-  $('#flex-place').html(data[i].cafe);
-  $('#flex-address').html(data[i].address);
+  $('#content-place').html(data[i].cafe);
+  $('#content-address').html(data[i].address);
+  ind = '#' + i; 
+  $('.active').removeClass('active');
+  $(ind).addClass('active');
 }
 
 function panToIndex(i) {

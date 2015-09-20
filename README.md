@@ -7,3 +7,4 @@
 3. popup on hover
 4. different icons
 5. have current index highlighted in bubbles
+6. gray out the arrows if min / max is reached
